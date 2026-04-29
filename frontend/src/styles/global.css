@@ -1,0 +1,84 @@
+/* ─── Reset ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─── Design tokens ──────────────────────────────────────────────── */
+:root {
+  --bg: #0b0e11;
+  --surface: #141820;
+  --surface-hover: #1a1f2b;
+  --border: #1e2433;
+  --border-light: #2a3040;
+
+  --text: #e8ecf1;
+  --text-muted: #7a8494;
+  --text-dim: #4a5568;
+
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+
+  --high: #ef4444;
+  --high-bg: rgba(239, 68, 68, 0.1);
+  --high-border: rgba(239, 68, 68, 0.25);
+
+  --medium: #f59e0b;
+  --medium-bg: rgba(245, 158, 11, 0.1);
+  --medium-border: rgba(245, 158, 11, 0.25);
+
+  --low: #10b981;
+  --low-bg: rgba(16, 185, 129, 0.1);
+  --low-border: rgba(16, 185, 129, 0.25);
+
+  --white-08: rgba(255, 255, 255, 0.08);
+
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-xs: 4px;
+}
+
+/* ─── Base ────────────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}
+
+/* ─── Selection ──────────────────────────────────────────────────── */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ─── Utility ────────────────────────────────────────────────────── */
+.mono {
+  font-family: var(--font-mono);
+}
