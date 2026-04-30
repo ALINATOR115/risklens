@@ -87,3 +87,4 @@ export async function scoreUploadMapped(file, colUser, colAmount, colTime) {
   }
   return res.json();
 }
+export function scoreDemo() { return request('/demo'); }

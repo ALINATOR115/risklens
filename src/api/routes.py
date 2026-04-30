@@ -33,7 +33,16 @@ from src.api.schemas import (
 
 
 router = APIRouter()
-
+@router.get("/demo", response_model=BatchScoreResponse, summary="Score built-in synthetic dataset")
+def run_demo(state: AppState = Depends(get_state)) -> BatchScoreResponse:
+    import pandas as pd
+    from pathlib import Path
+    _ensure_ready(state)
+    csv_path = Path("data/raw/synthetic_transactions.csv")
+    df = pd.read_csv(csv_path)
+    df = df.rename(columns={"transaction_id": "transaction_id", "user_id": "user_id", "transaction_time": "transaction_time", "amount": "amount"})
+    scored = score_dataframe(df, state)
+    return _build_batch_response(scored)
 
 # ---------------------------------------------------------------------------
 # Helpers

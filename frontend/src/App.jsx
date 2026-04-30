@@ -6,7 +6,7 @@ import TransactionsTable from "./components/TransactionsTable";
 import DetailPanel from "./components/DetailPanel";
 import ColumnMapper from "./components/ColumnMapper";
 import UserProfile from "./components/UserProfile";
-import { scoreBatch, detectColumns, scoreUploadMapped } from "./api/client";
+import { scoreBatch, scoreDemo, detectColumns, scoreUploadMapped } from "./api/client";
 import DEMO_TRANSACTIONS from "./api/demoData";
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
     setError(null);
     setSelectedTx(null);
     try {
-      const result = await scoreBatch(DEMO_TRANSACTIONS);
+      const result = await scoreDemo();
       setData(result);
     } catch (e) {
       setError(e.message);
