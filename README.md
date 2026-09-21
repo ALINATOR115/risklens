@@ -1,22 +1,32 @@
 RiskLens — Поведенческий антифрод для финансового сектора
 > SaaS-платформа для автоматического выявления аномальных транзакций на основе поведенческого анализа пользователей и методов машинного обучения.
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green)
 ![React](https://img.shields.io/badge/React-18+-61DAFB)
 ![ROC-AUC](https://img.shields.io/badge/ROC--AUC-0.986-brightgreen)
 ![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-success)
+
 🚀 Живое демо
 http://62.217.177.228
+
 Нажмите Demo dataset → Run analysis — система проанализирует 4 513 транзакций и выдаст risk score с объяснением для каждой аномалии.
 ---
 Скриншоты
 Главный дашборд — 4513 транзакций, 155 высокого риска
+
 ![Главный дашборд](screenshots/dashboard.png)
+
 Детальная панель — объяснение каждой аномалии
+
 ![Detail Panel](screenshots/detail_panel.png)
+
 > Система объясняет каждое решение: сумма в 77x выше предыдущей транзакции, 82x выше среднего по пользователю, три нарастающих перевода подряд — возможная схема разведки лимитов.
+
 Профиль пользователя — история транзакций с risk-оценкой
+
 ![User Profile](screenshots/user_profile.png)
+
 ---
 Ключевые результаты
 Метрика	Значение
