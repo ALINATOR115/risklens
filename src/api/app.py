@@ -16,6 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.dependencies import get_state
 from src.api.routes import router
+from src.api.llm_routes import llm_router
 
 
 def create_app(
@@ -55,6 +56,7 @@ def create_app(
 
     # -- Routes --
     app.include_router(router, prefix="/api/v1", tags=["scoring"])
+    app.include_router(llm_router, prefix="/api/v1", tags=["llm"])
 
     # -- Startup hook --
     @app.on_event("startup")

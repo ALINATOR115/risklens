@@ -4,12 +4,12 @@ import { riskColor, riskLabel, fmtScore, fmtAmount, fmtTime } from "../utils";
 
 const COLUMNS = [
   { key: "transaction_id", label: "ID", sortable: true },
-  { key: "user_id", label: "User", sortable: true },
-  { key: "amount", label: "Amount", sortable: true },
-  { key: "transaction_time", label: "Time", sortable: true },
-  { key: "final_score", label: "Score", sortable: true },
-  { key: "risk_class", label: "Risk", sortable: true },
-  { key: "_rules", label: "Rules", sortable: false },
+  { key: "user_id", label: "Пользователь", sortable: true },
+  { key: "amount", label: "Сумма", sortable: true },
+  { key: "transaction_time", label: "Время", sortable: true },
+  { key: "final_score", label: "Скор", sortable: true },
+  { key: "risk_class", label: "Риск", sortable: true },
+  { key: "_rules", label: "Правила", sortable: false },
 ];
 
 const FILTERS = ["all", "high_risk", "medium_risk", "low_risk"];
@@ -44,7 +44,7 @@ export default function TransactionsTable({ results, total, onSelect, onSelectUs
       {/* Filter row */}
       <div style={{ display: "flex", gap: 8, marginBottom: 16, alignItems: "center" }}>
         <span style={{ fontSize: 12, color: "var(--text-muted)", marginRight: 4 }}>
-          Filter:
+          Фильтр:
         </span>
         {FILTERS.map((f) => (
           <button
@@ -60,11 +60,11 @@ export default function TransactionsTable({ results, total, onSelect, onSelectUs
               cursor: "pointer",
             }}
           >
-            {f === "all" ? "All" : riskLabel(f)}
+            {f === "all" ? "Все" : riskLabel(f)}
           </button>
         ))}
         <span style={{ fontSize: 12, color: "var(--text-dim)", marginLeft: "auto" }}>
-          {sorted.length} of {total} transactions
+          {sorted.length} из {total} транзакций
         </span>
       </div>
 

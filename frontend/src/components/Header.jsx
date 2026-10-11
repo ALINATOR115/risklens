@@ -2,15 +2,16 @@ import React from "react";
 
 export default function Header({ isConnected }) {
   return (
-    <header
-      style={{
-        borderBottom: "1px solid var(--border)",
-        padding: "14px 32px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+   <header
+        style={{
+            background: "#0f172a",
+            padding: "14px 32px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            boxShadow: "0 1px 0 rgba(255,255,255,0.06)",
+        }}
+>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div
           style={{
@@ -28,36 +29,10 @@ export default function Header({ isConnected }) {
         >
           R
         </div>
-        <span style={{ fontWeight: 600, fontSize: 15, letterSpacing: "-0.01em" }}>
+        <span style={{ fontWeight: 600, fontSize: 15, letterSpacing: "-0.01em", color: "#ffffff" }}>
           RiskLens
         </span>
-        <span
-          style={{
-            fontSize: 10,
-            color: "var(--text-dim)",
-            padding: "2px 6px",
-            border: "1px solid var(--border)",
-            borderRadius: 4,
-            marginLeft: 4,
-          }}
-        >
-          v0.1.0
-        </span>
-      </div>
 
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <div
-          style={{
-            width: 7,
-            height: 7,
-            borderRadius: "50%",
-            background: isConnected ? "var(--low)" : "var(--text-dim)",
-            boxShadow: isConnected ? "0 0 6px var(--low)" : "none",
-          }}
-        />
-        <span style={{ fontSize: 12, color: "var(--text-muted)" }}>
-          {isConnected ? "Model active" : "Awaiting data"}
-        </span>
       </div>
     </header>
   );

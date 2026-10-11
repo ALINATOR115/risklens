@@ -20,7 +20,7 @@ export default function App() {
 
   // Column mapping state
   const [pendingFile, setPendingFile] = useState(null);
-  const [mappingInfo, setMappingInfo] = useState(null); // { columns, sample, guess }
+  const [mappingInfo, setMappingInfo] = useState(null);
 
   // ── Run demo ───────────────────────────────────────────────────
   const runDemo = useCallback(async () => {
@@ -119,7 +119,7 @@ export default function App() {
                   borderRight: t === "demo" ? "1px solid var(--border)" : "none",
                 }}
               >
-                {t === "demo" ? "Demo dataset" : "Upload CSV"}
+                {t === "demo" ? "Демо-датасет" : "Загрузить CSV"}
               </button>
             ))}
           </div>
@@ -139,7 +139,7 @@ export default function App() {
                 cursor: loading ? "wait" : "pointer",
               }}
             >
-              {loading ? "Scoring..." : "Run analysis"}
+              {loading ? "Анализируем..." : "Запустить анализ"}
             </button>
           ) : (
             <label
@@ -153,7 +153,7 @@ export default function App() {
                 cursor: loading ? "wait" : "pointer",
               }}
             >
-              {loading ? "Reading file..." : "Choose file"}
+              {loading ? "Читаем файл..." : "Выбрать файл"}
               <input
                 ref={fileRef}
                 type="file"
@@ -186,10 +186,10 @@ export default function App() {
           <div style={{ textAlign: "center", padding: "80px 0", color: "var(--text-dim)" }}>
             <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}>⬡</div>
             <div style={{ fontSize: 15, marginBottom: 6, color: "var(--text-muted)" }}>
-              No data loaded
+              Данные не загружены
             </div>
             <div style={{ fontSize: 13 }}>
-              Run the demo dataset or upload any CSV with transaction data
+              Запустите демо-датасет или загрузите любой CSV с транзакциями
             </div>
           </div>
         )}
@@ -197,11 +197,35 @@ export default function App() {
         {/* Dashboard */}
         {data && (
           <>
+            {/* Кнопка экспорта отчёта */}
+            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
+              <a
+                href="/api/v1/export/report"
+                download="risklens_report.xlsx"
+                style={{
+                  padding: "8px 20px",
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 8,
+                  color: "var(--text-muted)",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                }}
+              >
+                ↓ Скачать отчёт (.xlsx)
+              </a>
+            </div>
+
             <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
-              <StatCard label="TOTAL TRANSACTIONS" value={data.total} />
-              <StatCard label="HIGH RISK" value={counts.high} color="var(--high)" sub={pct(counts.high)} />
-              <StatCard label="MEDIUM RISK" value={counts.medium} color="var(--medium)" sub={pct(counts.medium)} />
-              <StatCard label="LOW RISK" value={counts.low} color="var(--low)" sub={pct(counts.low)} />
+              <StatCard label="ВСЕГО ТРАНЗАКЦИЙ" value={data.total} />
+              <StatCard label="ВЫСОКИЙ РИСК" value={counts.high} color="var(--high)" sub={pct(counts.high)} />
+              <StatCard label="СРЕДНИЙ РИСК" value={counts.medium} color="var(--medium)" sub={pct(counts.medium)} />
+              <StatCard label="НИЗКИЙ РИСК" value={counts.low} color="var(--low)" sub={pct(counts.low)} />
             </div>
             <Charts results={data.results} counts={counts} />
             <TransactionsTable results={data.results} total={data.total} onSelect={setSelectedTx} onSelectUser={setSelectedUser} />
@@ -230,7 +254,7 @@ export default function App() {
         <>
           <div
             onClick={() => setSelectedTx(null)}
-            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 90 }}
+            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 90 }}
           />
           <DetailPanel result={selectedTx} onClose={() => setSelectedTx(null)} />
         </>

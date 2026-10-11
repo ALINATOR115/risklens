@@ -32,23 +32,17 @@ import pandas as pd
 
 RANDOM_SEED: int = 42
 
-N_USERS: int = 200
-PERIOD_DAYS: int = 60
+N_USERS: int = 80
+PERIOD_DAYS: int = 180
 START_DATE: pd.Timestamp = pd.Timestamp("2024-01-01")
+DAILY_RATE_RANGE: tuple[float, float] = (0.80, 1.50)
+MIN_TRANSACTIONS_PER_USER: int = 150
 
-# Calibrated to land on ~4000 normal transactions:
-# 200 users * 60 days * mean(daily_rate ~ 0.33) ≈ 4000
-DAILY_RATE_RANGE: tuple[float, float] = (0.10, 0.60)
-MIN_TRANSACTIONS_PER_USER: int = 5
-
-# Anomaly plan: each entry assigns one anomaly type to N distinct users.
-# Total injected anomalous transactions ≈ 80 + 25*4 + 15*8 + 50 ≈ 350,
-# which against ~4000 normal transactions gives ~9% anomaly share.
 ANOMALY_PLAN: List[tuple[str, int]] = [
-    ("spike", 100),
-    ("increasing_sequence", 30),
-    ("burst", 15),
-    ("dominant", 60),
+    ("spike", 25),
+    ("increasing_sequence", 15),
+    ("burst", 10),
+    ("dominant", 20),
 ]
 
 

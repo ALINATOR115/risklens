@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from typing import List, Optional
-
+from enum import Enum
 from pydantic import BaseModel, Field
 
 
@@ -121,3 +121,25 @@ class ColumnDetectResponse(BaseModel):
         ...,
         description="Best-guess mapping: {user_id, amount, transaction_time} -> column name or null.",
     )
+# ---------------------------------------------------------------------------
+# Case Management
+# ---------------------------------------------------------------------------
+
+class CaseStatus(str, Enum):
+    confirmed_fraud = "confirmed_fraud"
+    false_positive  = "false_positive"
+    under_review    = "under_review"
+
+
+class CaseReviewRequest(BaseModel):
+    status: CaseStatus
+    comment: Optional[str] = None
+    reviewed_by: Optional[str] = None
+
+
+class CaseReviewResponse(BaseModel):
+    transaction_id: str
+    status: CaseStatus
+    comment: Optional[str] = None
+    reviewed_by: Optional[str] = None
+    reviewed_at: str

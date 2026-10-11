@@ -1,84 +1,82 @@
-/* ─── Reset ──────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-/* ─── Design tokens ──────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 :root {
-  --bg: #0b0e11;
-  --surface: #141820;
-  --surface-hover: #1a1f2b;
-  --border: #1e2433;
-  --border-light: #2a3040;
+  --bg:            #edf0f7;
+  --surface:       #ffffff;
+  --surface-hover: #f8f9fc;
+  --border:        #dde3ee;
+  --border-light:  #c8d2e0;
 
-  --text: #e8ecf1;
-  --text-muted: #7a8494;
-  --text-dim: #4a5568;
+  --text:       #111827;
+  --text-muted: #4b5a6e;
+  --text-dim:   #9aaab8;
 
-  --accent: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.15);
+  --accent:      #1d4ed8;
+  --accent-glow: rgba(29, 78, 216, 0.10);
 
-  --high: #ef4444;
-  --high-bg: rgba(239, 68, 68, 0.1);
-  --high-border: rgba(239, 68, 68, 0.25);
+  --high:        #dc2626;
+  --high-bg:     rgba(220, 38, 38, 0.07);
+  --high-border: rgba(220, 38, 38, 0.20);
 
-  --medium: #f59e0b;
-  --medium-bg: rgba(245, 158, 11, 0.1);
-  --medium-border: rgba(245, 158, 11, 0.25);
+  --medium:        #b45309;
+  --medium-bg:     rgba(180, 83, 9, 0.07);
+  --medium-border: rgba(180, 83, 9, 0.20);
 
-  --low: #10b981;
-  --low-bg: rgba(16, 185, 129, 0.1);
-  --low-border: rgba(16, 185, 129, 0.25);
+  --low:        #047857;
+  --low-bg:     rgba(4, 120, 87, 0.07);
+  --low-border: rgba(4, 120, 87, 0.20);
 
-  --white-08: rgba(255, 255, 255, 0.08);
+  --white-08: rgba(0, 0, 0, 0.03);
 
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-body: "IBM Plex Sans", -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", monospace;
 
-  --radius: 10px;
+  --radius:    10px;
   --radius-sm: 6px;
   --radius-xs: 4px;
-}
-
-/* ─── Base ────────────────────────────────────────────────────────── */
-html {
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: var(--font-body);
   background: var(--bg);
+  background-image: radial-gradient(
+    ellipse 70% 40% at 50% -5%,
+    rgba(29, 78, 216, 0.05) 0%,
+    transparent 60%
+  );
   color: var(--text);
   line-height: 1.5;
   min-height: 100vh;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-light);
-  border-radius: 3px;
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+::selection { background: var(--accent); color: #fff; }
+
+input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-/* ─── Selection ──────────────────────────────────────────────────── */
-::selection {
-  background: var(--accent);
-  color: #fff;
+.mono { font-family: var(--font-mono); }
+/* Тени для всех карточек с рамкой */
+[style*="var(--border)"] {
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.07),
+              0 1px 2px rgba(17, 24, 39, 0.04);
 }
 
-/* ─── Utility ────────────────────────────────────────────────────── */
-.mono {
-  font-family: var(--font-mono);
+/* Тень хедера */
+header {
+  background: var(--surface);
+  box-shadow: 0 1px 0 var(--border),
+              0 2px 8px rgba(17, 24, 39, 0.05);
+}
+
+/* Кнопка "Запустить анализ" */
+button[style*="var(--accent)"] {
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.25);
 }

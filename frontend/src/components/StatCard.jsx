@@ -10,6 +10,7 @@ export default function StatCard({ label, value, sub, color }) {
         padding: "20px 24px",
         flex: 1,
         minWidth: 160,
+        boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
       }}
     >
       <div

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 const REQUIRED = [
-  { key: "user_id", label: "User ID", hint: "Who made the transaction?" },
-  { key: "amount", label: "Amount", hint: "Transaction sum (numeric)" },
-  { key: "transaction_time", label: "Timestamp", hint: "When it happened" },
+  { key: "user_id", label: "ID пользователя", hint: "Кто совершил транзакцию?" },
+  { key: "amount", label: "Сумма", hint: "Сумма транзакции (число)" },
+  { key: "transaction_time", label: "Временная метка", hint: "Когда произошла" },
 ];
 
 export default function ColumnMapper({ columns, sample, guess, onConfirm, onCancel }) {
@@ -45,10 +45,10 @@ export default function ColumnMapper({ columns, sample, guess, onConfirm, onCanc
           }}
         >
           <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>
-            Map your columns
+            Настройка столбцов
           </div>
           <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
-            Your CSV has {columns.length} columns. Tell us which ones to use.
+            Ваш CSV содержит {columns.length} столбцов. Укажите, какие из них использовать.
           </div>
         </div>
 
@@ -78,7 +78,7 @@ export default function ColumnMapper({ columns, sample, guess, onConfirm, onCanc
                         borderRadius: 3,
                       }}
                     >
-                      e.g. {sampleVal.length > 20 ? sampleVal.slice(0, 20) + "…" : sampleVal}
+                      напр. {sampleVal.length > 20 ? sampleVal.slice(0, 20) + "…" : sampleVal}
                     </span>
                   )}
                 </div>
@@ -97,7 +97,7 @@ export default function ColumnMapper({ columns, sample, guess, onConfirm, onCanc
                     outline: "none",
                   }}
                 >
-                  <option value="">— select column —</option>
+                  <option value="">— выберите столбец —</option>
                   {columns.map((col) => (
                     <option key={col} value={col}>
                       {col}
@@ -120,7 +120,7 @@ export default function ColumnMapper({ columns, sample, guess, onConfirm, onCanc
                 padding: "8px 12px",
               }}
             >
-              Each field must map to a different column.
+              Каждое поле должно соответствовать отдельному столбцу.
             </div>
           )}
         </div>
@@ -147,7 +147,7 @@ export default function ColumnMapper({ columns, sample, guess, onConfirm, onCanc
               cursor: "pointer",
             }}
           >
-            Cancel
+            Отмена
           </button>
           <button
             onClick={() => onConfirm(mapping)}
@@ -163,7 +163,7 @@ export default function ColumnMapper({ columns, sample, guess, onConfirm, onCanc
               cursor: isReady && !hasDuplicates ? "pointer" : "not-allowed",
             }}
           >
-            Analyze →
+            Анализировать →
           </button>
         </div>
       </div>

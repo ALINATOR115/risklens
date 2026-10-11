@@ -11,6 +11,7 @@ layer touches the ML code.
 from __future__ import annotations
 
 import uuid
+from datetime import datetime, timezone
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -38,13 +39,49 @@ class AppState:
     # Cache: user_id -> list of scored transaction dicts
     user_cache: dict = field(default_factory=dict)
 
+    # Cache: transaction_id -> case review dict
+    cases: dict = field(default_factory=dict)
+
+    def add_case(
+            self,
+            transaction_id: str,
+            status: str,
+            comment: str | None = None,
+            reviewed_by: str | None = None,
+    ) -> dict:
+        """Создать или обновить решение по транзакции."""
+        self.cases[transaction_id] = {
+            "transaction_id": transaction_id,
+            "status": status,
+            "comment": comment,
+            "reviewed_by": reviewed_by,
+            "reviewed_at": datetime.now(timezone.utc).isoformat(),
+        }
+        return self.cases[transaction_id]
+
+    def get_case(self, transaction_id: str) -> dict | None:
+        """Вернуть кейс по transaction_id или None."""
+        return self.cases.get(transaction_id)
+
+    def list_cases(self) -> list:
+        """Вернуть все кейсы, отсортированные по времени создания."""
+        return sorted(
+            self.cases.values(),
+            key=lambda x: x.get("reviewed_at", ""),
+            reverse=True,
+        )
+
     def cache_results(self, scored: pd.DataFrame) -> None:
-        """Store all scored transactions grouped by user_id."""
+        """Store scored transactions grouped by user_id.
+        Overwrites existing cache for users present in scored."""
+        new_data: dict = {}
         for _, row in scored.iterrows():
             uid = str(row["user_id"])
-            if uid not in self.user_cache:
-                self.user_cache[uid] = []
-            self.user_cache[uid].append(row.to_dict())
+            if uid not in new_data:
+                new_data[uid] = []
+            new_data[uid].append(row.to_dict())
+        # Перезаписываем только тех пользователей, которые есть в новой загрузке
+        self.user_cache.update(new_data)
 
     def get_user(self, user_id: str) -> list:
         """Return all cached transactions for a user, sorted by time."""

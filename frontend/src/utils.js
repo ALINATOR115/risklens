@@ -18,9 +18,9 @@ export function riskBorder(cls) {
 }
 
 export function riskLabel(cls) {
-  if (cls === "high_risk") return "HIGH";
-  if (cls === "medium_risk") return "MEDIUM";
-  return "LOW";
+  if (cls === "high_risk") return "ВЫСОКИЙ";
+  if (cls === "medium_risk") return "СРЕДНИЙ";
+  return "НИЗКИЙ";
 }
 
 /** Format a float score to 4 decimal places */
@@ -31,7 +31,7 @@ export function fmtScore(n) {
 /** Format currency amount */
 export function fmtAmount(n) {
   if (typeof n !== "number") return "—";
-  return n.toLocaleString("en-US", {
+  return n.toLocaleString("ru-RU", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
@@ -40,7 +40,7 @@ export function fmtAmount(n) {
 /** Format ISO timestamp to HH:MM */
 export function fmtTime(t) {
   try {
-    return new Date(t).toLocaleTimeString("en-US", {
+    return new Date(t).toLocaleTimeString("ru-RU", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,

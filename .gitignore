@@ -2,3 +2,11 @@ data/raw/
 data/precessed/
 models/
 *.csv
+
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.venv/
+.idea/
+*.zip

@@ -5,23 +5,29 @@ import {
 } from "recharts";
 import { riskColor } from "../utils";
 
+// Hardcoded colours — Recharts tooltips don't inherit CSS variables
 const tooltipStyle = {
-  background: "var(--surface-hover)",
-  border: "1px solid var(--border)",
+  background: "#ffffff",
+  border: "1px solid #e2e8f2",
   borderRadius: 6,
   fontSize: 12,
-  color: "var(--text)",
+  color: "#111927",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.10)",
 };
+
+const fmtAmt = (v) =>
+  v >= 1000 ? `$${(v / 1000).toFixed(1)}k` : `$${Math.round(v)}`;
 
 export default function Charts({ results, counts }) {
   const barData = useMemo(
     () =>
       [...results]
-        .sort((a, b) => b.final_score - a.final_score)
+        .filter((r) => r.risk_class === "high_risk")
+        .sort((a, b) => b.amount - a.amount)
         .slice(0, 15)
         .map((r) => ({
           id: r.transaction_id,
-          score: r.final_score,
+          amount: Math.round(r.amount),
           risk: r.risk_class,
         })),
     [results]
@@ -30,9 +36,9 @@ export default function Charts({ results, counts }) {
   const pieData = useMemo(
     () =>
       [
-        { name: "High", value: counts.high, color: "var(--high)" },
-        { name: "Medium", value: counts.medium, color: "var(--medium)" },
-        { name: "Low", value: counts.low, color: "var(--low)" },
+        { name: "Высокий", value: counts.high,   color: "#ef4444" },
+        { name: "Средний", value: counts.medium, color: "#f59e0b" },
+        { name: "Низкий",  value: counts.low,    color: "#22c55e" },
       ].filter((d) => d.value > 0),
     [counts]
   );
@@ -46,7 +52,7 @@ export default function Charts({ results, counts }) {
         marginBottom: 28,
       }}
     >
-      {/* Bar chart */}
+      {/* Bar chart — top high-risk by amount */}
       <div
         style={{
           background: "var(--surface)",
@@ -55,18 +61,11 @@ export default function Charts({ results, counts }) {
           padding: "20px 24px",
         }}
       >
-        <div
-          style={{
-            fontSize: 12,
-            color: "var(--text-muted)",
-            marginBottom: 16,
-            letterSpacing: "0.04em",
-          }}
-        >
-          TOP RISK SCORES
+        <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 16, letterSpacing: "0.04em" }}>
+          ТОП ВЫСОКОРИСКОВЫХ ТРАНЗАКЦИЙ ПО СУММЕ
         </div>
         <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={barData} margin={{ top: 0, right: 0, bottom: 0, left: -20 }}>
+          <BarChart data={barData} margin={{ top: 0, right: 0, bottom: 0, left: 10 }}>
             <XAxis
               dataKey="id"
               tick={{ fill: "#4A5568", fontSize: 9 }}
@@ -74,13 +73,17 @@ export default function Charts({ results, counts }) {
               tickLine={false}
             />
             <YAxis
-              domain={[0, 1]}
+              tickFormatter={fmtAmt}
               tick={{ fill: "#4A5568", fontSize: 10 }}
               axisLine={false}
               tickLine={false}
             />
-            <Tooltip contentStyle={tooltipStyle} />
-            <Bar dataKey="score" radius={[3, 3, 0, 0]}>
+            <Tooltip
+              contentStyle={tooltipStyle}
+              formatter={(v) => [fmtAmt(v), "Сумма"]}
+              labelStyle={{ color: "#94a3b8", marginBottom: 4 }}
+            />
+            <Bar dataKey="amount" radius={[3, 3, 0, 0]}>
               {barData.map((d, i) => (
                 <Cell key={i} fill={riskColor(d.risk)} fillOpacity={0.85} />
               ))}
@@ -101,16 +104,8 @@ export default function Charts({ results, counts }) {
           alignItems: "center",
         }}
       >
-        <div
-          style={{
-            fontSize: 12,
-            color: "var(--text-muted)",
-            marginBottom: 12,
-            letterSpacing: "0.04em",
-            alignSelf: "flex-start",
-          }}
-        >
-          DISTRIBUTION
+        <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 12, letterSpacing: "0.04em", alignSelf: "flex-start" }}>
+          РАСПРЕДЕЛЕНИЕ
         </div>
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
@@ -136,7 +131,11 @@ export default function Charts({ results, counts }) {
                 <span style={{ color: "#7A8494", fontSize: 11 }}>{v}</span>
               )}
             />
-            <Tooltip contentStyle={tooltipStyle} />
+            <Tooltip
+              contentStyle={tooltipStyle}
+              formatter={(v, name) => [v, name]}
+              labelStyle={{ color: "#94a3b8" }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>

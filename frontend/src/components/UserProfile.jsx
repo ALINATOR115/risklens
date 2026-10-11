@@ -31,7 +31,7 @@ export default function UserProfile({ userId, onClose }) {
         style={{
           position: "fixed",
           inset: 0,
-          background: "rgba(0,0,0,0.5)",
+          background: "rgba(0,0,0,0.3)",
           zIndex: 90,
         }}
       />
@@ -49,7 +49,7 @@ export default function UserProfile({ userId, onClose }) {
           zIndex: 100,
           display: "flex",
           flexDirection: "column",
-          boxShadow: "-8px 0 32px rgba(0,0,0,0.4)",
+          boxShadow: "-8px 0 32px rgba(0,0,0,0.15)",
         }}
       >
         {/* Header */}
@@ -64,33 +64,55 @@ export default function UserProfile({ userId, onClose }) {
         >
           <div>
             <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>
-              USER PROFILE
+              ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
             </div>
             <div className="mono" style={{ fontSize: 16, fontWeight: 700, color: "var(--text)" }}>
               {userId}
             </div>
           </div>
-          <button
-            onClick={onClose}
-            style={{
-              background: "none",
-              border: "1px solid var(--border)",
-              color: "var(--text-muted)",
-              width: 32,
-              height: 32,
-              borderRadius: "var(--radius-sm)",
-              cursor: "pointer",
-              fontSize: 16,
-            }}
-          >
-            ✕
-          </button>
+
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <a
+              href={`/api/v1/export/user/${encodeURIComponent(userId)}`}
+              download={`user_${userId}_history.xlsx`}
+              style={{
+                padding: "6px 14px",
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
+                borderRadius: "var(--radius-sm)",
+                color: "var(--text-muted)",
+                fontSize: 12,
+                fontWeight: 500,
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              ↓ История
+            </a>
+            <button
+              onClick={onClose}
+              style={{
+                background: "none",
+                border: "1px solid var(--border)",
+                color: "var(--text-muted)",
+                width: 32,
+                height: 32,
+                borderRadius: "var(--radius-sm)",
+                cursor: "pointer",
+                fontSize: 16,
+              }}
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
         {/* Body */}
         <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
           {loading && (
-            <div style={{ color: "var(--text-muted)", fontSize: 13 }}>Loading...</div>
+            <div style={{ color: "var(--text-muted)", fontSize: 13 }}>Загрузка...</div>
           )}
           {error && (
             <div style={{ color: "var(--high)", fontSize: 13 }}>{error}</div>
@@ -108,12 +130,12 @@ export default function UserProfile({ userId, onClose }) {
                 }}
               >
                 {[
-                  ["TRANSACTIONS", profile.total_transactions, "var(--text)"],
-                  ["MAX SCORE", fmtScore(profile.max_risk_score), riskColor(
+                  ["ТРАНЗАКЦИЙ", profile.total_transactions, "var(--text)"],
+                  ["МАКС. СКОР", fmtScore(profile.max_risk_score), riskColor(
                     profile.max_risk_score >= 0.7 ? "high_risk" :
                     profile.max_risk_score >= 0.4 ? "medium_risk" : "low_risk"
                   )],
-                  ["AVG SCORE", fmtScore(profile.avg_risk_score), "var(--text-muted)"],
+                  ["СРЕДН. СКОР", fmtScore(profile.avg_risk_score), "var(--text-muted)"],
                 ].map(([label, value, color]) => (
                   <div
                     key={label}
@@ -137,9 +159,9 @@ export default function UserProfile({ userId, onClose }) {
               {/* Risk breakdown */}
               <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
                 {[
-                  ["HIGH", profile.risk_counts.high_risk, "var(--high)"],
-                  ["MEDIUM", profile.risk_counts.medium_risk, "var(--medium)"],
-                  ["LOW", profile.risk_counts.low_risk, "var(--low)"],
+                  ["ВЫСОКИЙ", profile.risk_counts.high_risk, "var(--high)"],
+                  ["СРЕДНИЙ", profile.risk_counts.medium_risk, "var(--medium)"],
+                  ["НИЗКИЙ",  profile.risk_counts.low_risk,  "var(--low)"],
                 ].map(([label, count, color]) => (
                   <div
                     key={label}
@@ -170,7 +192,7 @@ export default function UserProfile({ userId, onClose }) {
                   textTransform: "uppercase",
                 }}
               >
-                Transaction history
+                История транзакций
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -211,11 +233,7 @@ export default function UserProfile({ userId, onClose }) {
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <span
                         className="mono"
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: riskColor(tx.risk_class),
-                        }}
+                        style={{ fontSize: 12, fontWeight: 600, color: riskColor(tx.risk_class) }}
                       >
                         {fmtScore(tx.final_score)}
                       </span>
